@@ -7,7 +7,7 @@ account_number = "your_account_number_here"
 # Base URL for FedEx Tracking API
 base_url = "https://api.e-commerce.fedex.com/v1/tracking"
 
-def get_tracking_info(tracking_number, custom_headers=None, query_params=None, request_data=None):
+def get_tracking_info(tracking_number, custom_headers=None, request_data=None):
     # Prepare the default headers with required authentication
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -18,18 +18,9 @@ def get_tracking_info(tracking_number, custom_headers=None, query_params=None, r
     if custom_headers:
         headers.update(custom_headers)
 
-    # Prepare the default query parameters with tracking number
-    params = {
-        "tracking_number": tracking_number
-    }
-
-    # If additional query parameters are provided, update the defaults
-    if query_params:
-        params.update(query_params)
-
     try:
-        # Make a GET request to the FedEx Tracking API
-        response = requests.get(base_url, headers=headers, params=params, json=request_data)
+        # Make a POST request to the FedEx Tracking API
+        response = requests.post(base_url, headers=headers, json=request_data)
 
         # Check the response status code
         if response.status_code == 200:
@@ -45,10 +36,9 @@ def get_tracking_info(tracking_number, custom_headers=None, query_params=None, r
 if __name__ == "__main__":
     tracking_number = "your_tracking_number_here"
 
-    # Example: Customize headers, query parameters, and request body data
+    # Example: Customize headers and request body data
     custom_headers = {"custom-header": "value"}
-    query_params = {"additional_param": "value"}
     request_data = {"request_key": "request_value"}
 
     # Call the function with provided parameters
-    get_tracking_info(tracking_number, custom_headers, query_params, request_data)
+    get_tracking_info(tracking_number, custom_headers, request_data)
