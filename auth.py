@@ -1,4 +1,5 @@
 import requests
+import dns.resolver
 
 # Replace with your FedEx API credentials
 api_key = "your_api_key_here"
@@ -7,7 +8,21 @@ account_number = "your_account_number_here"
 # Base URL for FedEx Tracking API
 base_url = "https://api.e-commerce.fedex.com/v1/tracking"
 
+def resolve_domain(domain):
+    resolver = dns.resolver.Resolver()
+    try:
+        resolved_ips = resolver.resolve(domain)
+        return resolved_ips[0].address
+    except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer, dns.exception.DNSException):
+        return None
+
 def get_tracking_info(tracking_number, custom_headers=None, request_data=None):
+    resolved_ip = resolve_domain("apis-sandbox.fedex.com")
+
+    if not resolved_ip:
+        print("Failed to resolve domain name.")
+        return
+
     # Prepare the default headers with required authentication
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -19,13 +34,12 @@ def get_tracking_info(tracking_number, custom_headers=None, request_data=None):
         headers.update(custom_headers)
 
     try:
-        # Make a POST request to the FedEx Tracking API
-        response = requests.post(base_url, headers=headers, json=request_data)
+        # Make a POST request to the resolved IP address using HTTPS
+        url = f"https://{resolved_ip}/v1/tracking"
+        response = requests.post(url, headers=headers, json=request_data)
 
-        # Check the response status code
         if response.status_code == 200:
             data = response.json()
-            # Process the tracking information
             print("Tracking Information:", data)
         else:
             print("API Request failed with status code:", response.status_code)
@@ -40,5 +54,4 @@ if __name__ == "__main__":
     custom_headers = {"custom-header": "value"}
     request_data = {"request_key": "request_value"}
 
-    # Call the function with provided parameters
     get_tracking_info(tracking_number, custom_headers, request_data)
