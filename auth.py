@@ -1,39 +1,54 @@
 import requests
-from requests_oauthlib import OAuth2Session
 
-# Replace with your OAuth 2.0 credentials
-client_id = "your_client_id_here"
-client_secret = "your_client_secret_here"
-authorization_base_url = "https://api.example.com/oauth/authorize"
-token_url = "https://api.example.com/oauth/token"
-redirect_uri = "https://your-redirect-uri.com/callback"
+# Replace with your FedEx API credentials
+api_key = "your_api_key_here"
+account_number = "your_account_number_here"
 
+# Base URL for FedEx Tracking API
+base_url = "https://api.e-commerce.fedex.com/v1/tracking"
 
-def authenticate_with_oauth():
-    oauth = OAuth2Session(client_id, redirect_uri=redirect_uri)
-    authorization_url, _ = oauth.authorization_url(authorization_base_url)
+def get_tracking_info(tracking_number, custom_headers=None, query_params=None, request_data=None):
+    # Prepare the default headers with required authentication
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "account-number": account_number
+    }
 
-    print("Please go to the following URL and authorize the application:")
-    print(authorization_url)
+    # If custom headers are provided, update the default headers
+    if custom_headers:
+        headers.update(custom_headers)
 
-    authorization_response = input("Enter the full callback URL after authorization: ")
-    token = oauth.fetch_token(token_url, authorization_response=authorization_response, client_secret=client_secret)
+    # Prepare the default query parameters with tracking number
+    params = {
+        "tracking_number": tracking_number
+    }
 
-    api_url = "https://api.example.com/resource"  # Replace with your API URL
+    # If additional query parameters are provided, update the defaults
+    if query_params:
+        params.update(query_params)
 
     try:
-        response = oauth.get(api_url)
+        # Make a GET request to the FedEx Tracking API
+        response = requests.get(base_url, headers=headers, params=params, json=request_data)
 
+        # Check the response status code
         if response.status_code == 200:
             data = response.json()
-            # Process the API response data
-            print("API Response:", data)
+            # Process the tracking information
+            print("Tracking Information:", data)
         else:
             print("API Request failed with status code:", response.status_code)
 
     except requests.exceptions.RequestException as e:
         print("An error occurred:", e)
 
-
 if __name__ == "__main__":
-    authenticate_with_oauth()
+    tracking_number = "your_tracking_number_here"
+
+    # Example: Customize headers, query parameters, and request body data
+    custom_headers = {"custom-header": "value"}
+    query_params = {"additional_param": "value"}
+    request_data = {"request_key": "request_value"}
+
+    # Call the function with provided parameters
+    get_tracking_info(tracking_number, custom_headers, query_params, request_data)
