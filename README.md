@@ -1,6 +1,7 @@
 # WikiTracker
 
-WikiTracker is your tool for importing FedEx tracking numbers into your Shopify store
+WikiTracker is a python script that will perform an OAuth 2.0 call to the FedEx production API. 
+This script assumes you have a Developer account with FedEx at https://developer.fedex.com/ and will need an API key configured within the portal.
 
 # Usage
 
