@@ -1,5 +1,6 @@
 import os
 import requests
+from openai import ChatCompletion
 
 # Replace with your FedEx API credentials
 
@@ -8,6 +9,10 @@ CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
 
 token_url = "https://apis.fedex.com/oauth/token"
 tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
+
+# Replace with your OpenAI API key
+# openai_api_key = ""
+# openai_api_key = ""
 
 def get_access_token():
     client_id = os.environ.get(CLIENT_ID_ENV_VAR)
@@ -68,6 +73,14 @@ def get_tracking_info(tracking_number, access_token):
         print("Tracking Information:", data)
     else:
         print("API Request failed with status code:", response.status_code)
+
+def interact_with_gpt(messages):
+    openai_chat = ChatCompletion.create(
+        model="davinci",
+        messages=messages,
+        api_key=openai_api_key
+    )
+    return openai_chat.choices[0].message['content']
 
 def main():
     # Retrieve API credentials from environment variables
