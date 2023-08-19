@@ -55,8 +55,8 @@ def get_tracking_info(tracking_number, access_token):
         "includeDetailedScans": 'True',
         "trackingInfo": [
             {
-                "shipDateBegin": "2023-07-29",
-                "shipDateEnd": "2023-08-11",
+                "shipDateBegin": "",
+                "shipDateEnd": "",
                 "trackingNumberInfo": {
                     "trackingNumber": f"{tracking_number}",
                     "carrierCode": "FDXE",
