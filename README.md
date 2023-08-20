@@ -9,11 +9,11 @@ This script assumes you have a Developer account with FedEx at https://developer
 
 Replace with your FedEx API credentials. Please note the _client_id_ and _client_secret_ are environment variables within your OS and should not be hard-coded within the script.
 
-In your environment/OS set the two environment variables 
+In your environment/OS set the two environment variables: 
 
-**FEDEX_CLIENT_ID** to your FedEx API key (as _client_id_)
+**FEDEX_CLIENT_ID** is your FedEx API key (as _client_id_)
 
-**FEDEX_CLIENT_SECRET** to the API secrey (as _client_secret_)
+**FEDEX_CLIENT_SECRET** is your FedEx API secret (as _client_secret_)
 
 ```
 CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID"
