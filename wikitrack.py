@@ -2,16 +2,19 @@ import os
 import requests
 
 # Webhook URL
+
 WEBHOOK_URL_ENV_VAR = "WEBHOOK_URL"
+
 # Replace with your FedEx API credentials
+
 CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID"
 CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
 
 token_url = "https://apis.fedex.com/oauth/token"
 tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
 
-# Set the environment variable within your script
-# os.environ["WEBHOOK_URL"] = "https://your-webhook-url.com"
+# Set the environment variable
+# os.environ["WEBHOOK_URL"] = ""
 
 def get_access_token():
     client_id = os.environ.get(CLIENT_ID_ENV_VAR)
@@ -25,7 +28,7 @@ def get_access_token():
 
     response = requests.post(token_url, data=payload)
 
-    print("Authorization Response Content:", response.content)  # Print the entire response content
+    print("Authorization Response Content:", response.content)  # Print the entire response content / debug
 
     if response.status_code == 200:
         token_data = response.json()
@@ -73,7 +76,6 @@ def get_tracking_info(tracking_number, access_token):
     else:
         print("API Request failed with status code:", response.status_code)
 
-# Replace this placeholder with the logic to fetch data from the webhook
 def fetch_data_from_webhook():
     webhook_data = {
         "tracking_number": ""
