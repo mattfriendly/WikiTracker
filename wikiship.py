@@ -5,8 +5,9 @@ import sys
 
 # Replace with your FedEx API credentials
 
-CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
-CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR"
+CLIENT_ID_ENV_VAR = "TEST_CLIENT_ID_ENV_VAR"
+CLIENT_SECRET_ENV_VAR = "TEST_CLIENT_SECRET_ENV_VAR"
+
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"  # New environment variable for the account number
 
 SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"

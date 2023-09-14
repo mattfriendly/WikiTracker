@@ -4,11 +4,11 @@ import requests
 
 # Replace with your FedEx API credentials
 
-CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID"
-CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
+CLIENT_ID_ENV_VAR = "TEST_FEDEX_CLIENT_ID"
+CLIENT_SECRET_ENV_VAR = "TEST_FEDEX_CLIENT_SECRET"
 
-token_url = "https://apis.fedex.com/oauth/token"
-tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
+token_url = "https://apis-sandbox.fedex.com/oauth/token"
+tracking_base_url = "https://apis-sandbox.fedex.com/track/v1/trackingnumbers"
 
 # Set the environment variable
 # os.environ["WEBHOOK_URL"] = ""
