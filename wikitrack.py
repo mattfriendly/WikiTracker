@@ -1,9 +1,6 @@
 import os
 import requests
 
-# Webhook URL
-
-WEBHOOK_URL_ENV_VAR = "WEBHOOK_URL"
 
 # Replace with your FedEx API credentials
 
