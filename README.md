@@ -27,9 +27,10 @@ tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
 
 *wikiship.py*
 
-We wanted different environment variable names so that the keys won't conflict with *wikitrack.py*. 
+Replace these with your FedEx Ship API credentials, which are different than your FedEx Track API credentials.
+It is better to have different environment variable names so that the keys won't conflict with *wikitrack.py*
 
-The wikiship environment variables are as follows:
+The environment variables are as follows:
 
 **CLIENT_ID_ENV_VAR** is your FedEx SHIP API Key
 
