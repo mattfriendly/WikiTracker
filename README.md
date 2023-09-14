@@ -19,5 +19,26 @@ In your environment/OS set the two environment variables:
 CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID"
 CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
 
+
 token_url = "https://apis.fedex.com/oauth/token"
 tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
+
+```
+
+*wikiship.py*
+
+We wanted different environment variable names so that the keys won't conflict with *wikitrack.py*. 
+
+The wikiship environment variables are as follows:
+
+**CLIENT_ID_ENV_VAR** is your FedEx SHIP API Key
+
+**CLIENT_SECRET_ENV_VAR** is your FedEx SHIP API Secret
+
+```
+**CLIENT_ID_ENV_VAR** = "CLIENT_ID_ENV_VAR"
+
+**CLIENT_SECRET_ENV_VAR** = "CLIENT_SECRET_ENV_VAR"
+
+**ACCOUNT_NUMBER_ENV_VAR** = "FEDEX_ACCOUNT_NUMBER"
+```
