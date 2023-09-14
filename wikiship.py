@@ -9,11 +9,11 @@ CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
 CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR"
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"  # New environment variable for the account number
 
-SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
+SHIP_BASE_URL = "https://apis.fedex.com/ship/v1/shipments"
 
 def get_access_token():
     # Obtain access token using OAuth2 client credentials flow
-    token_url = "https://apis-sandbox.fedex.com/oauth/token"
+    token_url = "https://apis.fedex.com/oauth/token"
 
     client_id = os.environ.get(CLIENT_ID_ENV_VAR)
     client_secret = os.environ.get(CLIENT_SECRET_ENV_VAR)
@@ -44,7 +44,7 @@ def get_access_token():
 
 def create_shipment_request(access_token):
     # Define the URL for the FedEx Shipments API
-    url = "https://apis-sandbox.fedex.com/ship/v1/shipments"
+    url = "https://apis.fedex.com/ship/v1/shipments"
 
     # Define the shipment data as a Python dictionary
     shipment_data = {
