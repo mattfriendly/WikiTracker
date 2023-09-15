@@ -11,10 +11,6 @@ CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
 token_url = "https://apis.fedex.com/oauth/token"
 tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
 
-# Set the environment variable
-
-# os.environ["WEBHOOK_URL"] = ""
-
 def get_access_token():
     client_id = os.environ.get(CLIENT_ID_ENV_VAR)
     client_secret = os.environ.get(CLIENT_SECRET_ENV_VAR)
@@ -77,14 +73,6 @@ def get_tracking_info(tracking_number, access_token):
 
 
 def main():
-    # Fetch data from the webhook
-    webhook_data = fetch_data_from_webhook()
-
-    # Process the webhook data using the handler
-    if webhook_data:
-        webhook_handler(webhook_data)
-    else:
-        print("No webhook data found.")
         # Prompt the user for input as a fallback
         user_input = input("Please enter a tracking number: ")
         if user_input:
