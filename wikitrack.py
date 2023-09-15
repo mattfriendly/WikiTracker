@@ -4,6 +4,7 @@ import requests
 
 # Replace with your FedEx API credentials
 
+WEBHOOK_URL = "WEBHOOK_URL"
 CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID"
 CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
 
@@ -11,6 +12,7 @@ token_url = "https://apis.fedex.com/oauth/token"
 tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
 
 # Set the environment variable
+
 # os.environ["WEBHOOK_URL"] = ""
 
 def get_access_token():
@@ -73,27 +75,7 @@ def get_tracking_info(tracking_number, access_token):
     else:
         print("API Request failed with status code:", response.status_code)
 
-def fetch_data_from_webhook():
-    webhook_data = {
-        "tracking_number": ""
-        # Add other relevant webhook data here
-    }
-    return webhook_data
 
-def webhook_handler(webhook_data):
-    # Extract the tracking number from the webhook data
-    tracking_number = webhook_data.get("tracking_number")
-
-    if tracking_number:
-        access_token = get_access_token()  # Obtain access token
-        get_tracking_info(tracking_number, access_token)  # Get tracking information
-    else:
-        print("No tracking number found in webhook data.")
-        # Prompt the user for input as a fallback
-        user_input = input("Please enter a tracking number: ")
-        if user_input:
-            access_token = get_access_token()  # Obtain access token
-            get_tracking_info(user_input, access_token)  # Get tracking information
 def main():
     # Fetch data from the webhook
     webhook_data = fetch_data_from_webhook()
