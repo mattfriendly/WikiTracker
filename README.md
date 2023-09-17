@@ -14,12 +14,12 @@ In your environment/OS set the two environment variables:
 **FedEx API Environment Variables:**
 
 ```
-CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID" (your sandbox test FedEx API key)
-CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET" (your sandbox test FedEx API secret)
+TEST_CLIENT_ID_ENV_VAR (your sandbox test FedEx API key)
+TEST_CLIENT_SECRET_ENV_VAR (your sandbox test FedEx API secret)
 
 
-token_url = "https://apis.fedex.com/oauth/token"
-tracking_base_url = "https://apis.fedex.com/track/v1/trackingnumbers"
+token_url = "https://apis-sandbox.fedex.com/oauth/token"
+tracking_base_url = "https://apis-sandbox.fedex.com/track/v1/trackingnumbers"
 
 ```
 
@@ -33,9 +33,9 @@ The environment variables are as follows:
 <br>
 **FedEx API Environment Variables:**
 ```
-CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR" (your FedEx SHIP API Key)
-CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR" (your FedEx SHIP API Secret)
-ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER" (your FedEx 9-digit account number)
+TEST_CLIENT_ID_ENV_VAR (your sandbox FedEx SHIP API Key)
+TEST_CLIENT_SECRET_ENV_VAR (your sandbox FedEx SHIP API Secret)
+ACCOUNT_NUMBER_ENV_VAR (your FedEx 9-digit account number)
 SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
 
 ```
