@@ -36,17 +36,26 @@ The environment variables are as follows:
 
 **CLIENT_SECRET_ENV_VAR** is your FedEx SHIP API Secret
 
+FedEx API Environment Variables:
 ```
 CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
 CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR"
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
+```
+
+MySQL Environment Variables:
+```
 DB_HOST = database host
 DB_NAME = database name
 DB_PASSWORD = database pass
 DB_USER = database user
-SHIPPING_ID = order number you want to print a label for (env var for now, will be automated later)
-
 ```
+
+Local Environment Variables (soon to be replaced):
+```
+SHIPPING_ID = order number you want to print a label for (env var for now, will be automated later)
+```
+
 
 *mysql-schema.sql* 
 
