@@ -17,6 +17,8 @@ CLIENT_SECRET_ENV_VAR = "TEST_CLIENT_SECRET_ENV_VAR"
 # New environment variable for the account number
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
 
+SHIPMENT_ID_ENV_VAR = "SHIPMENT_ID"
+
 SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
 
 # Define a custom JSON encoder for datetime objects
@@ -219,6 +221,9 @@ def main():
     client_secret = os.environ.get(CLIENT_SECRET_ENV_VAR)
     account_number = os.environ.get(ACCOUNT_NUMBER_ENV_VAR)  # Get the account number from the environment
 
+    # Retrieve shipment ID from the environment variable
+    shipment_id = os.environ.get(SHIPMENT_ID_ENV_VAR)
+
     # Check for missing environment variables
     missing_vars = []
     if not client_id:
@@ -227,6 +232,9 @@ def main():
         missing_vars.append(CLIENT_SECRET_ENV_VAR)
     if not account_number:
         missing_vars.append(ACCOUNT_NUMBER_ENV_VAR)
+    if not shipment_id:
+        missing_vars.append(SHIPMENT_ID_ENV_VAR)
+
 
     if missing_vars:
         print("Error: The following required environment variables are missing:")
@@ -240,8 +248,13 @@ def main():
         print("Access token could not be obtained. Exiting.")
         sys.exit(1)
 
-    # Replace with the desired shipment ID
-    shipment_id = 3
+    # Ensure that the shipment ID is an integer
+    try:
+        shipment_id = int(shipment_id)
+    except ValueError:
+        print("Error: Invalid shipment ID. It must be an integer.")
+        sys.exit(1)
+
     shipment_data = get_shipment_data_from_mysql(shipment_id)
 
     print("Shipment ID:", shipment_id)
