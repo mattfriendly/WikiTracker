@@ -193,7 +193,7 @@ def create_shipment_request(access_token, shipment_data):
                                 "faxNumber": "fax number"
                             },
                             "accountNumber": {
-                                "value": "<redacted>"
+                                "value": "os.environ.get(ACCOUNT_NUMBER_ENV_VAR)"
                             }
                         }
                     }
