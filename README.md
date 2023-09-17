@@ -11,13 +11,11 @@ Replace with your FedEx API credentials. Please note the _client_id_ and _client
 
 In your environment/OS set the two environment variables: 
 
-**FEDEX_CLIENT_ID** is your FedEx API key (as _client_id_)
-
-**FEDEX_CLIENT_SECRET** is your FedEx API secret (as _client_secret_)
+**FedEx API Environment Variables:**
 
 ```
-CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID"
-CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
+CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID" (your sandbox test FedEx API key)
+CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET" (your sandbox test FedEx API secret)
 
 
 token_url = "https://apis.fedex.com/oauth/token"
@@ -31,13 +29,32 @@ Replace these with your FedEx Ship API credentials, which are different than you
 It is better to have different environment variable names so that the keys won't conflict with *wikitrack.py*
 
 The environment variables are as follows:
-
-**CLIENT_ID_ENV_VAR** is your FedEx SHIP API Key
-
-**CLIENT_SECRET_ENV_VAR** is your FedEx SHIP API Secret
+<br>
+<br>
+**FedEx API Environment Variables:**
+```
+CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR" (your FedEx SHIP API Key)
+CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR" (your FedEx SHIP API Secret)
+ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER" (your FedEx 9-digit account number)
+SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
 
 ```
-CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
-CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR"
-ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
+
+**MySQL Environment Variables:**
 ```
+DB_HOST = database host
+DB_NAME = database name
+DB_PASSWORD = database pass
+DB_USER = database user
+```
+
+**Local Environment Variables** (soon to be replaced):
+```
+SHIPPING_ID = specify table ID to print label for (env var for now)
+```
+
+
+*mysql-schema.sql* 
+
+This schema contains all of the necessary fields to interact with the FedEx Ship API. 
+How the data gets there is up to you!
