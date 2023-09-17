@@ -1,3 +1,6 @@
+#WikiShip.py
+#Coded with friendliness
+
 import json
 import os
 import requests
