@@ -37,9 +37,8 @@ The environment variables are as follows:
 **_CLIENT_SECRET_ENV_VAR_** is your FedEx SHIP API Secret
 
 **_ACCOUNT_NUMBER_ENV_VAR_** is your FedEx 9-digit account number
-  
-  
-  
+<br>
+<br>
 **FedEx API Environment Variables:**
 ```
 CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
