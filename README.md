@@ -50,7 +50,7 @@ DB_USER = database user
 
 **Local Environment Variables** (soon to be replaced):
 ```
-SHIPPING_ID = order number you want to print a label for (env var for now, will be automated later)
+SHIPPING_ID = specify table ID to print label for (env var for now)
 ```
 
 
