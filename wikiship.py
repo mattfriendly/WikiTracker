@@ -25,6 +25,7 @@ CLIENT_ID_ENV_VAR = "TEST_CLIENT_ID_ENV_VAR"
 CLIENT_SECRET_ENV_VAR = "TEST_CLIENT_SECRET_ENV_VAR"
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
 SHIPMENT_ID_ENV_VAR = "SHIPMENT_ID"
+TABLE_NAME_ENV_VAR = "HFC_SHIPMENTS_TABLE"
 
 SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
 
@@ -96,7 +97,11 @@ def get_shipment_data_from_mysql(shipment_id):
     cursor = connection.cursor(pymysql.cursors.DictCursor)  # Use a dictionary cursor
 
     try:
-        query = "SELECT * FROM hfc_shipments WHERE id = %s"
+        # Retrieve the table name from the environment variable
+        table_name = os.environ.get(TABLE_NAME_ENV_VAR)  # Use a default value if not set
+
+        # Create the SQL query using the table name
+        query = f"SELECT * FROM {table_name} WHERE id = %s"
         cursor.execute(query, (shipment_id,))
         shipment_data = cursor.fetchone()
     except pymysql.Error as e:
@@ -257,6 +262,9 @@ def main():
     # Retrieve shipment ID from the environment variable
     shipment_id = os.environ.get(SHIPMENT_ID_ENV_VAR)
 
+    # Retrieve table name from the environment variable
+    table_name = os.environ.get(TABLE_NAME_ENV_VAR)  # Use a default value if not set
+
     # Check for missing environment variables
     missing_vars = []
     if not client_id:
@@ -267,6 +275,8 @@ def main():
         missing_vars.append(ACCOUNT_NUMBER_ENV_VAR)
     if not shipment_id:
         missing_vars.append(SHIPMENT_ID_ENV_VAR)
+    if not table_name:
+        missing_vars.append(TABLE_NAME_ENV_VAR)
 
 
     if missing_vars:
