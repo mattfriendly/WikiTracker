@@ -37,9 +37,9 @@ The environment variables are as follows:
 **_CLIENT_SECRET_ENV_VAR_** is your FedEx SHIP API Secret
 
 **_ACCOUNT_NUMBER_ENV_VAR_** is your FedEx 9-digit account number
-
-
-
+  
+  
+  
 **FedEx API Environment Variables:**
 ```
 CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
@@ -63,4 +63,4 @@ SHIPPING_ID = order number you want to print a label for (env var for now, will 
 
 *mysql-schema.sql* 
 
-This schema is a database that should contain all of the necessary fields to interact with the FedEx Ship API. 
+This schema contains all of the necessary fields to interact with the FedEx Ship API. 
