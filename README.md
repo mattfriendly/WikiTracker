@@ -11,13 +11,11 @@ Replace with your FedEx API credentials. Please note the _client_id_ and _client
 
 In your environment/OS set the two environment variables: 
 
-**FEDEX_CLIENT_ID** is your FedEx API key (as _client_id_)
-
-**FEDEX_CLIENT_SECRET** is your FedEx API secret (as _client_secret_)
+**FedEx API Environment Variables:**
 
 ```
-CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID"
-CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET"
+CLIENT_ID_ENV_VAR = "FEDEX_CLIENT_ID" (your sandbox test FedEx API key)
+CLIENT_SECRET_ENV_VAR = "FEDEX_CLIENT_SECRET" (your sandbox test FedEx API secret)
 
 
 token_url = "https://apis.fedex.com/oauth/token"
@@ -38,6 +36,8 @@ The environment variables are as follows:
 CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR" (your FedEx SHIP API Key)
 CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR" (your FedEx SHIP API Secret)
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER" (your FedEx 9-digit account number)
+SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
+
 ```
 
 **MySQL Environment Variables:**
@@ -57,3 +57,4 @@ SHIPPING_ID = specify table ID to print label for (env var for now)
 *mysql-schema.sql* 
 
 This schema contains all of the necessary fields to interact with the FedEx Ship API. 
+How the data gets there is up to you!
