@@ -31,19 +31,13 @@ Replace these with your FedEx Ship API credentials, which are different than you
 It is better to have different environment variable names so that the keys won't conflict with *wikitrack.py*
 
 The environment variables are as follows:
-
-**_CLIENT_ID_ENV_VAR_** is your FedEx SHIP API Key
-
-**_CLIENT_SECRET_ENV_VAR_** is your FedEx SHIP API Secret
-
-**_ACCOUNT_NUMBER_ENV_VAR_** is your FedEx 9-digit account number
 <br>
 <br>
 **FedEx API Environment Variables:**
 ```
-CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
-CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR"
-ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
+CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR" (your FedEx SHIP API Key)
+CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR" (your FedEx SHIP API Secret)
+ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER" (your FedEx 9-digit account number)
 ```
 
 **MySQL Environment Variables:**
