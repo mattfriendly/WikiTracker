@@ -6,17 +6,19 @@ import mysql.connector
 import pymysql
 from datetime import datetime
 
-
 # Print the current working directory
 print("Current Working Directory:", os.getcwd())
 
-# Replace with your FedEx API credentials
+# Replace with your FedEx API credentials & and variables from the environment
+
+# DB_USER = database username
+# DB_PASS = database password
+# DB_HOST = database hostname
+# DB_NAME = database name
+
 CLIENT_ID_ENV_VAR = "TEST_CLIENT_ID_ENV_VAR"
 CLIENT_SECRET_ENV_VAR = "TEST_CLIENT_SECRET_ENV_VAR"
-
-# New environment variable for the account number
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
-
 SHIPMENT_ID_ENV_VAR = "SHIPMENT_ID"
 
 SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
