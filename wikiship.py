@@ -93,7 +93,7 @@ def get_shipment_data_from_mysql(shipment_id):
     cursor = connection.cursor(pymysql.cursors.DictCursor)  # Use a dictionary cursor
 
     try:
-        query = "SELECT * FROM shipments WHERE id = %s"
+        query = "SELECT * FROM hfc_shipments WHERE id = %s"
         cursor.execute(query, (shipment_id,))
         shipment_data = cursor.fetchone()
     except pymysql.Error as e:
@@ -170,34 +170,34 @@ def create_shipment_request(access_token, shipment_data):
             "pickupType": shipment_data["pickup_type"],
             "blockInsightVisibility": shipment_data["block_insight_visibility"],
             "shippingChargesPayment": {
-                    "paymentType": "SENDER",
-                    "payor": {
-                        "responsibleParty": {
-                            "address": {
-                                "streetLines": [
-                                    "10 FedEx Parkway",
-                                    "Suite 302"
-                                ],
-                                "city": "Beverly Hills",
-                                "stateOrProvinceCode": "CA",
-                                "postalCode": "90210",
-                                "countryCode": "US",
-                                "residential": False
-                            },
-                            "contact": {
-                                "personName": "John Taylor",
-                                "emailAddress": "sample@company.com",
-                                "phoneNumber": "8009524262",
-                                "phoneExtension": "",
-                                "companyName": "Fedex",
-                                "faxNumber": "fax number"
-                            },
-                            "accountNumber": {
-                                "value": os.environ.get(ACCOUNT_NUMBER_ENV_VAR)
-                            }
+                "paymentType": "SENDER",
+                "payor": {
+                    "responsibleParty": {
+                        "address": {
+                            "streetLines": [
+                                shipment_data["shipping_charges_street1"],
+                                shipment_data["shipping_charges_street2"]
+                            ],
+                            "city": shipment_data["shipping_charges_city"],
+                            "stateOrProvinceCode": shipment_data["shipping_charges_state"],
+                            "postalCode": shipment_data["shipping_charges_postal"],
+                            "countryCode": shipment_data["shipping_charges_country"],
+                            "residential": shipment_data["shipping_charges_residential"]
+                        },
+                        "contact": {
+                            "personName": shipment_data["shipping_charges_person_name"],
+                            "emailAddress": shipment_data["shipping_charges_email"],
+                            "phoneNumber": shipment_data["shipping_charges_phone"],
+                            "phoneExtension": shipment_data["shipping_charges_phone_extension"],
+                            "companyName": shipment_data["shipping_charges_company_name"],
+                            "faxNumber": shipment_data["shipping_charges_fax_number"]
+                        },
+                        "accountNumber": {
+                            "value": os.environ.get(ACCOUNT_NUMBER_ENV_VAR)
                         }
                     }
-                },
+                }
+            },
             "labelSpecification": {
                 "imageType": shipment_data["image_type"],
                 "labelStockType": shipment_data["label_stock_type"],
