@@ -2,16 +2,30 @@ import json
 import os
 import requests
 import sys
+import mysql.connector
+import pymysql
+from datetime import datetime
+
+
+# Print the current working directory
+print("Current Working Directory:", os.getcwd())
 
 # Replace with your FedEx API credentials
-
 CLIENT_ID_ENV_VAR = "TEST_CLIENT_ID_ENV_VAR"
 CLIENT_SECRET_ENV_VAR = "TEST_CLIENT_SECRET_ENV_VAR"
 
-ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"  # New environment variable for the account number
+# New environment variable for the account number
+ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
 
 SHIP_BASE_URL = "https://apis-sandbox.fedex.com/ship/v1/shipments"
 
+# Define a custom JSON encoder for datetime objects
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            # Convert datetime object to a string in ISO 8601 format
+            return obj.isoformat()
+        return super().default(obj)
 def get_access_token():
     # Obtain access token using OAuth2 client credentials flow
     token_url = "https://apis-sandbox.fedex.com/oauth/token"
@@ -43,72 +57,139 @@ def get_access_token():
         print("Token Request failed with status code:", response.status_code)
         return None
 
-def create_shipment_request(access_token):
+import pymysql
+
+def get_shipment_data_from_mysql(shipment_id):
+    # Retrieve database configuration from environment variables
+    db_host = os.environ.get("DB_HOST")
+    db_user = os.environ.get("DB_USER")
+    db_password = os.environ.get("DB_PASSWORD")
+    db_name = os.environ.get("DB_NAME")
+
+    # Ensure that all required environment variables are set
+    if None in [db_host, db_user, db_password, db_name]:
+        print("Error: Missing one or more database configuration environment variables.")
+        return None
+
+    # Connect to the MySQL database using the retrieved environment variables
+    db_config = {
+        "host": db_host,
+        "user": db_user,
+        "password": db_password,
+        "database": db_name,
+        "ssl_ca": "ca.pem",  # Replace with the path to your CA certificate file
+        "ssl_cert": "client-cert.pem",  # Replace with the path to your client certificate file
+        "ssl_key": "client-key.pem",  # Replace with the path to your client key file
+    }
+
+    # Establish a connection using pymysql
+    connection = pymysql.connect(**db_config)
+    cursor = connection.cursor(pymysql.cursors.DictCursor)  # Use a dictionary cursor
+
+    try:
+        query = "SELECT * FROM shipments WHERE id = %s"
+        cursor.execute(query, (shipment_id,))
+        shipment_data = cursor.fetchone()
+    except pymysql.Error as e:
+        print("MySQL Error:", e)
+        shipment_data = None  # Set shipment_data to None in case of an error
+
+    print("Retrieved Shipment Data:", shipment_data)  # Add this line for debugging
+
+    cursor.close()
+    connection.close()
+
+    # Check if shipment_data is not None
+    if shipment_data:
+        # Access the ship_datestamp value by its column name
+        ship_datestamp = shipment_data.get('ship_datestamp')
+
+        # Convert the 'ship_datestamp' field to a Python datetime object
+        if ship_datestamp:
+            try:
+                ship_datestamp = datetime.strptime(str(ship_datestamp), '%Y-%m-%d %H:%M:%S')
+            except ValueError as e:
+                print("Warning: Unable to convert 'ship_datestamp' to Python datetime:", e)
+        else:
+            print("Warning: 'ship_datestamp' is None in the database.")
+
+        # Now you have the ship_datestamp as a datetime object
+        # You can return it or process it further as needed
+
+    # Add this print statement to verify the returned data
+    print("Returning Shipment Data:", shipment_data)
+    return shipment_data  # Return the shipment data
+
+def create_shipment_request(access_token, shipment_data):
     # Define the URL for the FedEx Shipments API
     url = "https://apis-sandbox.fedex.com/ship/v1/shipments"
 
-    # Define the shipment data as a Python dictionary
-    shipment_data = {
+    # Continue defining the rest of the shipment data fields using the retrieved data
+    shipment_data_dict = {
         "labelResponseOptions": "URL_ONLY",
         "requestedShipment": {
             "shipper": {
                 "contact": {
-                    "personName": "PERSONS NAME",
-                    "phoneNumber": "2135551212",
-                    "companyName": "SHIPPERS BENEVOLENT ORGANIZATION"
+                    "personName": shipment_data["shipper_name"],
+                    "phoneNumber": shipment_data["shipper_phone"],
+                    "companyName": shipment_data["shipper_company"],
                 },
                 "address": {
-                    "streetLines": ["1415 APPLE-PEACH LANE"],
-                    "city": "ANYTOWN",
-                    "stateOrProvinceCode": "CA",
-                    "postalCode": "90210",
-                    "countryCode": "US"
+                    "streetLines": [shipment_data["shipper_street"]],
+                    "city": shipment_data["shipper_city"],
+                    "stateOrProvinceCode": shipment_data["shipper_state"],
+                    "postalCode": shipment_data["shipper_postal"],
+                    "countryCode": shipment_data["shipper_country"],
                 }
             },
             "recipients": [
                 {
                     "contact": {
-                        "personName": "LUCKY RECIPIENT",
-                        "phoneNumber": "2125551212",
-                        "companyName": ""
+                        "personName": shipment_data["recipient_name"],
+                        "phoneNumber": shipment_data["recipient_phone"],
+                        "companyName": shipment_data["recipient_company"],
                     },
                     "address": {
-                        "streetLines": ["STREET1", "STREET2"],
-                        "city": "ANYTOWN",
-                        "stateOrProvinceCode": "NY",
-                        "postalCode": "10003",
-                        "countryCode": "US"
+                        "streetLines": [shipment_data["recipient_street1"], shipment_data["recipient_street2"]],
+                        "city": shipment_data["recipient_city"],
+                        "stateOrProvinceCode": shipment_data["recipient_state"],
+                        "postalCode": shipment_data["recipient_postal"],
+                        "countryCode": shipment_data["recipient_country"],
                     }
                 }
             ],
-            "shipDatestamp": "2023-12-31",
-            "serviceType": "STANDARD_OVERNIGHT",
-            "packagingType": "FEDEX_PAK",
-            "pickupType": "USE_SCHEDULED_PICKUP",
-            "blockInsightVisibility": False,
+            "shipDatestamp": shipment_data["ship_datestamp"],
+            "serviceType": shipment_data["service_type"],
+            "packagingType": shipment_data["packaging_type"],
+            "pickupType": shipment_data["pickup_type"],
+            "blockInsightVisibility": shipment_data["block_insight_visibility"],
             "shippingChargesPayment": {
-                "paymentType": "SENDER"
+                "paymentType": shipment_data["payment_type"],
             },
             "labelSpecification": {
-                "imageType": "PDF",
-                "labelStockType": "PAPER_85X11_TOP_HALF_LABEL"
+                "imageType": shipment_data["image_type"],
+                "labelStockType": shipment_data["label_stock_type"],
             },
             "requestedPackageLineItems": [
                 {
                     "weight": {
-                        "value": 10,
+                        "value": shipment_data["weight_value"],
                         "units": "LB"
                     }
                 }
             ]
         },
         "accountNumber": {
-            "value": os.environ.get("FEDEX_ACCOUNT_NUMBER")  # Retrieve the account number from the environment variable
+            "value": os.environ.get(ACCOUNT_NUMBER_ENV_VAR)
         }
     }
 
+    # Debug: Print each value in the shipment_data_dict
+    for key, value in shipment_data_dict.items():
+        print(f"{key}: {value}")
+
     # Convert the shipment data dictionary to a JSON string
-    payload = json.dumps(shipment_data)
+    payload = json.dumps(shipment_data_dict, cls=DateTimeEncoder)
 
     # Define the headers with the access token
     headers = {
@@ -159,14 +240,25 @@ def main():
         print("Access token could not be obtained. Exiting.")
         sys.exit(1)
 
-    # Call create_shipment_request() with the access_token
-    shipment_label_url = create_shipment_request(access_token)
+    # Replace with the desired shipment ID
+    shipment_id = 3
+    shipment_data = get_shipment_data_from_mysql(shipment_id)
 
-    if shipment_label_url:
-        # Display the URL if it's available
-        print("Shipping Label URL:", shipment_label_url)
+    print("Shipment ID:", shipment_id)
+    print("Retrieved Shipment Data:", shipment_data)
+
+    if shipment_data:
+        # Call create_shipment_request() with the access_token and shipment_data
+        shipment_label_url = create_shipment_request(access_token, shipment_data)
+
+        if shipment_label_url:
+            # Display the URL if it's available
+            print("Shipping Label URL:", shipment_label_url)
+        else:
+            print("Shipment creation failed.")
     else:
-        print("Shipment creation failed.")
+        print("Shipment data not found in the database.")
+
 
 if __name__ == "__main__":
     main()
