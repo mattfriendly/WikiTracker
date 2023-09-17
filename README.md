@@ -32,18 +32,18 @@ It is better to have different environment variable names so that the keys won't
 
 The environment variables are as follows:
 
-**CLIENT_ID_ENV_VAR** is your FedEx SHIP API Key
+**_CLIENT_ID_ENV_VAR_** is your FedEx SHIP API Key
 
-**CLIENT_SECRET_ENV_VAR** is your FedEx SHIP API Secret
+**_CLIENT_SECRET_ENV_VAR_** is your FedEx SHIP API Secret
 
-FedEx API Environment Variables:
+**FedEx API Environment Variables:**
 ```
 CLIENT_ID_ENV_VAR = "CLIENT_ID_ENV_VAR"
 CLIENT_SECRET_ENV_VAR = "CLIENT_SECRET_ENV_VAR"
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
 ```
 
-MySQL Environment Variables:
+**MySQL Environment Variables:**
 ```
 DB_HOST = database host
 DB_NAME = database name
@@ -51,7 +51,7 @@ DB_PASSWORD = database pass
 DB_USER = database user
 ```
 
-Local Environment Variables (soon to be replaced):
+**Local Environment Variables** (soon to be replaced):
 ```
 SHIPPING_ID = order number you want to print a label for (env var for now, will be automated later)
 ```
