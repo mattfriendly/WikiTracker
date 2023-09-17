@@ -16,6 +16,8 @@ print("Current Working Directory:", os.getcwd())
 # DB_HOST = database hostname
 # DB_NAME = database name
 
+# SHIPMENT_ID = meant to be pulled in dynamically but for now define it statically in the env
+
 CLIENT_ID_ENV_VAR = "TEST_CLIENT_ID_ENV_VAR"
 CLIENT_SECRET_ENV_VAR = "TEST_CLIENT_SECRET_ENV_VAR"
 ACCOUNT_NUMBER_ENV_VAR = "FEDEX_ACCOUNT_NUMBER"
@@ -168,8 +170,34 @@ def create_shipment_request(access_token, shipment_data):
             "pickupType": shipment_data["pickup_type"],
             "blockInsightVisibility": shipment_data["block_insight_visibility"],
             "shippingChargesPayment": {
-                "paymentType": shipment_data["payment_type"],
-            },
+                    "paymentType": "SENDER",
+                    "payor": {
+                        "responsibleParty": {
+                            "address": {
+                                "streetLines": [
+                                    "10 FedEx Parkway",
+                                    "Suite 302"
+                                ],
+                                "city": "Beverly Hills",
+                                "stateOrProvinceCode": "CA",
+                                "postalCode": "90210",
+                                "countryCode": "US",
+                                "residential": False
+                            },
+                            "contact": {
+                                "personName": "John Taylor",
+                                "emailAddress": "sample@company.com",
+                                "phoneNumber": "8009524262",
+                                "phoneExtension": "",
+                                "companyName": "Fedex",
+                                "faxNumber": "fax number"
+                            },
+                            "accountNumber": {
+                                "value": "<redacted>"
+                            }
+                        }
+                    }
+                },
             "labelSpecification": {
                 "imageType": shipment_data["image_type"],
                 "labelStockType": shipment_data["label_stock_type"],
