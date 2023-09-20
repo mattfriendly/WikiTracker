@@ -101,7 +101,7 @@ def get_shipment_data_from_mysql(shipment_id):
         table_name = os.environ.get(TABLE_NAME_ENV_VAR)  # Use a default value if not set
 
         # Create the SQL query using the table name
-        query = f"SELECT * FROM {table_name} WHERE id = %s"
+        query = f"SELECT * FROM {table_name} WHERE order_id = %s"
         cursor.execute(query, (shipment_id,))
         shipment_data = cursor.fetchone()
     except pymysql.Error as e:
